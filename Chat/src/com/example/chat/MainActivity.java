@@ -10,7 +10,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-	} // sdflkasdjsdfasdf
+	} // neu
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

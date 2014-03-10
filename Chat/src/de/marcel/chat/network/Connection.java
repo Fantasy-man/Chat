@@ -15,7 +15,7 @@ public class Connection implements ChatLoader {
 	
 	public Connection() {
 		try {
-			url = new URL("http://192.168.0.109/?user=test&msg=");
+			url = new URL("http://www.chatalternative.webuda.com/?user=test&msg=");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			return;

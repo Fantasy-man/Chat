@@ -94,7 +94,7 @@ public class RequestMessagesThread extends Thread {
 								text += line;
 							}
 							
-							// Message hinzufügen
+							// Message hinzufügen 
 							if (!nochText && !text.equals("") && id > -1) {
 								final Message m = new Message(id, text, new ChatUser());
 								Log.d("Encode", "Hinzugefügt: id = " + id + " text = '" + text + "'");

@@ -9,7 +9,7 @@ public class EncodeMessage {
 	public EncodeMessage(BufferedReader reader) {
 		this.reader = reader;
 		
-		reader.
+		//reader.
 	}
 	
 	

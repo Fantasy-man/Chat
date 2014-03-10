@@ -26,7 +26,7 @@ public class SendMessageThread extends Thread {
 		try {
 			String msg = m.getMessageText();
 			msg = msg.replace(" ", "%20");
-			url = new URL("http://192.168.0.109/?user='test'&msg=" + msg + "");
+			url = new URL("http://www.chatalternative.webuda.com/?user='test'&msg=" + msg + "");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			return;

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MessageView extends LinearLayout {
+public class Message extends LinearLayout {
 	
 	private String messageText;
 	private ChatUser sender;
@@ -14,7 +14,7 @@ public class MessageView extends LinearLayout {
 	
 	private TextView messageTextView;
 	
-	public MessageView(String messageText, ChatUser sender, ChatList parentChatList) {
+	public Message(String messageText, ChatUser sender, ChatList parentChatList) {
 		super(parentChatList.getContext());
 		this.messageText = messageText;
 		this.sender = sender;

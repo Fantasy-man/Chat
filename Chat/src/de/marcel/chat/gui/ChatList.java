@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.widget.LinearLayout;
-import de.marcel.chat.MainActivity;
 import de.marcel.chat.Message;
 
 public class ChatList extends LinearLayout {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.CharBuffer;
 
 import android.util.Log;
 import de.marcel.chat.ChatUser;
@@ -38,33 +39,41 @@ public class RequestMessagesThread extends Thread {
 				boolean nochText = false;
 				Integer id = 0;
 				String text = "";
+				StringBuffer sb = new StringBuffer();
 				while ((line = reader.readLine()) != null) {
-					Log.d("Connection.getMessages", "Message eingelesen: " + line);
+					sb.append(line);
+				}
+				
+				String splitString = "<SplitHere>";
+				
+				for (String line1 : sb.toString().split(splitString)) {
+					line1 = splitString + line1;
+					Log.d("Connection.getMessages", "Message eingelesen: " + line1);
 					
-					if (line.contains("<Messages>")) {
+					if (line1.contains("<Messages>")) {
 						nochMessages = true;
-						line = line.substring(line.indexOf("<Messages>") + 10);
-					} else if (line.contains("</Messages>")) {
+						line1 = line1.substring(line1.indexOf("<Messages>") + 10);
+					} else if (line1.contains("</Messages>")) {
 						nochMessages = false;
 					}
 					
 					if (nochMessages) {
 						// Im Messages-Bereich
-						if (line.contains("<Message>")) {
+						if (line1.contains("<Message>")) {
 							id = -1;
 							text = "";
 							nochMessage = true;
-							line = line.substring(line.indexOf("<Message>") + 9);
-						} else if (line.contains("</Message>")) {
+							line1 = line1.substring(line1.indexOf("<Message>") + 9);
+						} else if (line1.contains("</Message>")) {
 							nochMessage = false;
 							nochText = false;
 						}
 						
 						if (nochMessage) {
 							// Im Message-Bereich
-							if (line.contains("<Id>")) {
-								if (line.contains("</Id>")) {
-									String sID = line.substring(line.indexOf("<Id>") + 4, line.indexOf("</Id>"));
+							if (line1.contains("<Id>")) {
+								if (line1.contains("</Id>")) {
+									String sID = line1.substring(line1.indexOf("<Id>") + 4, line1.indexOf("</Id>"));
 									Log.d("Encode", "sID = '" + sID + "'");
 									try {
 										id = Integer.parseInt(sID);
@@ -74,24 +83,24 @@ public class RequestMessagesThread extends Thread {
 								}
 							}
 							
-							if (line.contains("<Text>")) {
-								if (line.contains("</Text>")) {
-									text = line.substring(line.indexOf("<Text>") + 6, line.indexOf("</Text>"));
+							if (line1.contains("<Text>")) {
+								if (line1.contains("</Text>")) {
+									text = line1.substring(line1.indexOf("<Text>") + 6, line1.indexOf("</Text>"));
 									Log.d("Encode", "text = '" + text + "'");
 								} else {
-									text += line.substring(line.indexOf("<Text>") + 6);
+									text += line1.substring(line1.indexOf("<Text>") + 6);
 									nochText = true;
 									Log.d("Encode", "Teil text = '" + text + "'");
 								}
 							}
-							if (!line.contains("<Text>") && line.contains("</Text>")) {
-								text += line.substring(0, line.indexOf("</Text>"));
+							if (!line1.contains("<Text>") && line1.contains("</Text>")) {
+								text += line1.substring(0, line1.indexOf("</Text>"));
 								nochText = false;
 								Log.d("Encode", "Teil text = '" + text + "'");
 							}
 							
 							if (nochText) {
-								text += line;
+								text += line1;
 							}
 							
 							// Message hinzufügen 

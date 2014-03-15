@@ -1,4 +1,4 @@
-package de.marcel.chat.network;
+package de.marcel.chat.network.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,14 +9,14 @@ import java.net.URL;
 
 import android.util.Log;
 
-import de.marcel.chat.Message;
+import de.marcel.chat.MessageData;
 
 public class SendMessageThread extends Thread {
 	
-	Message m;
+	MessageData m;
 	URL url;
 	
-	public SendMessageThread(URL url, Message m) {
+	public SendMessageThread(URL url, MessageData m) {
 		this.m = m;
 		this.url = url;
 		start();

@@ -2,21 +2,22 @@ package de.marcel.chat.gui;
 
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.marcel.chat.Message;
+import de.marcel.chat.MainActivity;
+import de.marcel.chat.MessageData;
 
 public class MessageView extends LinearLayout {
 	
-	private Message message;
-	private ChatList parentChatList;
+	private MessageData message;
+	private ChatView parentChatList;
 	
 	private TextView messageTextView;
 	
-	public MessageView(Message message, ChatList parentChatList) {
-		super(parentChatList.getContext());
+	public MessageView(MessageData message, ChatView parentChatList) {
+		super(MainActivity.mainActivity);
 		this.message = message;
 		this.parentChatList = parentChatList;
 		
-		parentChatList.addView(this);
+		parentChatList.messageLayout.addView(this);
 		repaint();
 	}
 	
@@ -30,7 +31,7 @@ public class MessageView extends LinearLayout {
 		addView(messageTextView);
 	}
 	
-	public Message getMessage() {
+	public MessageData getMessage() {
 		return message;
 	}
 	

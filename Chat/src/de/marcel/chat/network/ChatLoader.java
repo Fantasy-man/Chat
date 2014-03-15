@@ -1,12 +1,12 @@
 package de.marcel.chat.network;
 
-import de.marcel.chat.Message;
-import de.marcel.chat.gui.ChatList;
+import de.marcel.chat.MessageData;
+import de.marcel.chat.gui.ChatView;
 
 public interface ChatLoader {
 	
-	public void startRequest(ChatList list);
+	public void startRequest(ChatView list);
 	
-	public void sendMessage(Message m);
+	public void sendMessage(MessageData m);
 	
 }

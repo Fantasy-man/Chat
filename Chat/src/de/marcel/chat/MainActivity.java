@@ -2,25 +2,18 @@ package de.marcel.chat;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ScrollView;
-import de.marcel.chat.gui.ChatList;
-import de.marcel.chat.network.ChatLoader;
-import de.marcel.chat.network.Connection;
+import de.marcel.chat.gui.ChatView;
+import de.marcel.chat.gui.UserList;
+import de.marcel.chat.network.tcp.Connection;
 
-public class MainActivity extends Activity implements OnClickListener{
+public class MainActivity extends Activity{
 	
-	public static ChatLoader cl = new Connection();
-	
-	ChatList list;
-	ScrollView mainLayout;
-	Button btnSenden;
-	EditText textInput;
+	public static Connection conn;
+	public static ChatUser thisUser;
+	public static ChatView currentChatView;
+	public static ChatView list;
+	public static UserList userList;
 	
 	public static MainActivity mainActivity;
 	
@@ -28,19 +21,19 @@ public class MainActivity extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		mainActivity = this;
 		
+		userList = new UserList();
+		
+		thisUser = new ChatUser();
+		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.chat);
+		currentChatView = null;
 		
-		btnSenden = (Button)findViewById(R.id.button1);
-		btnSenden.setOnClickListener(this);
-		textInput = (EditText) findViewById(R.id.editText1);
-		mainLayout = (ScrollView) findViewById(R.id.scrollView1);
+		// Verbindung zum Server aufbauen
+		conn = new Connection("192.168.0.150", 4562);
 		
-		// Liste erstellen
-		list = new ChatList(this);
-		mainLayout.addView(list);
+		conn.startRequest(list);
 		
-		cl.startRequest(list);
 	}
 
 	@Override
@@ -49,17 +42,9 @@ public class MainActivity extends Activity implements OnClickListener{
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
-	@Override
-	public void onClick(View v) {
-		if (v == btnSenden) {
-			Log.i("onClick - Sende", "Senden: " + textInput.getText().toString());
-			if (!textInput.getText().toString().equals("")) {
-				Message m = new Message(0, textInput.getText().toString(), new ChatUser());
-				cl.sendMessage(m);
-				textInput.setText("");
-			}
-		}
+	
+	public static Chat getChat(int id) {
+		return UserList.getChat(id);
 	}
 
 }

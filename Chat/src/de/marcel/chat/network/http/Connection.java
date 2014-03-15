@@ -1,12 +1,13 @@
-package de.marcel.chat.network;
+package de.marcel.chat.network.http;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.util.Log;
 
-import de.marcel.chat.Message;
-import de.marcel.chat.gui.ChatList;
+import de.marcel.chat.MessageData;
+import de.marcel.chat.gui.ChatView;
+import de.marcel.chat.network.ChatLoader;
 
 public class Connection implements ChatLoader {
 	
@@ -24,7 +25,7 @@ public class Connection implements ChatLoader {
 	}
 	
 	@Override
-	public void startRequest(ChatList list) {
+	public void startRequest(ChatView list) {
 		requestThread = new RequestMessagesThread(url, list);
 	}
 	
@@ -33,7 +34,7 @@ public class Connection implements ChatLoader {
 	}
 
 	@Override
-	public void sendMessage(Message m) {
+	public void sendMessage(MessageData m) {
 		new SendMessageThread(url, m);
 	}
 	

@@ -1,25 +1,23 @@
-package de.marcel.chat.network;
+package de.marcel.chat.network.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.CharBuffer;
-
 import android.util.Log;
 import de.marcel.chat.ChatUser;
 import de.marcel.chat.MainActivity;
-import de.marcel.chat.Message;
-import de.marcel.chat.gui.ChatList;
+import de.marcel.chat.MessageData;
+import de.marcel.chat.gui.ChatView;
 
 public class RequestMessagesThread extends Thread {
 	
 	private URL url;
-	private ChatList list;
+	private ChatView list;
 	public boolean check = true;
 	
-	public RequestMessagesThread(URL url, ChatList list) {
+	public RequestMessagesThread(URL url, ChatView list) {
 		this.url = url;
 		this.list = list;
 		start();
@@ -105,7 +103,7 @@ public class RequestMessagesThread extends Thread {
 							
 							// Message hinzufügen 
 							if (!nochText && !text.equals("") && id > -1) {
-								final Message m = new Message(id, text, new ChatUser());
+								final MessageData m = null;//new MessageData(id, text, new ChatUser());
 								Log.d("Encode", "Hinzugefügt: id = " + id + " text = '" + text + "'");
 								MainActivity.mainActivity.runOnUiThread(new Runnable() {
 								     @Override

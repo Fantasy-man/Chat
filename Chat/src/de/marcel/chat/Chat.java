@@ -16,9 +16,9 @@ public class Chat{
 	}
 	
 	public void addMessage(MessageData message) {
-		/*if (containsMessage(message.getId())) {
+		if (containsMessage(message.getId())) {
 			return;
-		}*/
+		}
 		
 		Log.d("Chat", "User " + user.getId() + " addMessage " + message.getMessageText());
 		
@@ -53,6 +53,10 @@ public class Chat{
 
 	public void setUser(ChatUser user) {
 		this.user = user;
+	}
+	
+	public void setMessageListener(MessageListener listener) {
+		messageListener = listener;
 	}
 	
 }

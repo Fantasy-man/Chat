@@ -26,7 +26,7 @@ public class MainActivity extends Activity{
 		thisUser = new ChatUser();
 		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.chat);
+		setContentView(R.layout.loading);
 		currentChatView = null;
 		
 		// Verbindung zum Server aufbauen
@@ -45,6 +45,11 @@ public class MainActivity extends Activity{
 	
 	public static Chat getChat(int id) {
 		return UserList.getChat(id);
+	}
+	
+	public static void showChat(Chat chat) {
+		currentChatView = new ChatView(chat);
+		
 	}
 
 }

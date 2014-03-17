@@ -105,23 +105,40 @@ public class Connection extends Thread implements ChatLoader{
 				Integer to = Integer.parseInt(s.substring(0, s.indexOf(PARA)));
 				String msg = s.substring(s.indexOf(PARA) + PARA.length());
 				
-				ChatUser userFrom = MainActivity.getChat(from).getUser();
-				if (userFrom == null) {
-					// User erstellen
-					userFrom = new ChatUser();
-					UserList.addUser(userFrom);
-					userFrom.setId(from);
-					userFrom.setUserName("Loading...");
+				Chat chatTo = MainActivity.getChat(to);
+				Chat chatFrom = MainActivity.getChat(from);
+				if (chatFrom != null && chatTo != null) {
+					ChatUser userFrom = chatFrom.getUser();
+					ChatUser userTo = chatTo.getUser();
+					if (userFrom == null) {
+						// User erstellen
+						userFrom = new ChatUser();
+						UserList.addUser(userFrom);
+						userFrom.setId(from);
+						userFrom.setUserName("Loading...");
+					}
+					
+					if (userTo == null) {
+						// User erstellen
+						userTo = new ChatUser();
+						UserList.addUser(userTo);
+						userTo.setId(to);
+						userTo.setUserName("Loading...");
+					}
+					
+					if (to != MainActivity.thisUser.getId() && from != MainActivity.thisUser.getId()) {
+						Log.e("Chat", "Nachricht nicht für mich!");
+						return;
+					}
+					
+					MessageData md = new MessageData(id, msg, userFrom, userTo);
+					
+					if (userFrom.getId() != MainActivity.thisUser.getId()) {
+						userFrom.getChat().addMessage(md);
+					} else {
+						userTo.getChat().addMessage(md);
+					}
 				}
-				
-				if (to != MainActivity.thisUser.getId()) {
-					Log.e("Chat", "Nachricht nicht für mich!");
-					return;
-				}
-				
-				MessageData md = new MessageData(id, msg, userFrom, MainActivity.thisUser);
-				
-				userFrom.getChat().addMessage(md);
 				
 			} catch (NumberFormatException e) {
 				return;

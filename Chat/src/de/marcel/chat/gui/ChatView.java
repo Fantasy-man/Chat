@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import de.marcel.chat.Chat;
-import de.marcel.chat.ChatUser;
 import de.marcel.chat.MainActivity;
 import de.marcel.chat.MessageData;
 import de.marcel.chat.MessageListener;
@@ -28,8 +27,9 @@ public class ChatView implements MessageListener, OnClickListener {
 	
 	public ChatView(Chat chat) {
 		this.chat = chat;
+		chat.setMessageListener(this);
 		MainActivity.currentChatView = this;
-		MainActivity.mainActivity.setContentView(R.layout.activity_main);
+		MainActivity.mainActivity.setContentView(R.layout.chat);
 		messageLayout = new LinearLayout(MainActivity.mainActivity);
 		LinearLayout.LayoutParams pa = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 		messageLayout.setLayoutParams(pa);
@@ -40,10 +40,11 @@ public class ChatView implements MessageListener, OnClickListener {
 		textInput = (EditText) MainActivity.mainActivity.findViewById(R.id.editText1);
 		mainLayout = (ScrollView) MainActivity.mainActivity.findViewById(R.id.scrollView1);
 		mainLayout.addView(messageLayout);
+		refresh();
 	}
 	
 	public void loadChat(Chat chat) {
-		refresh();
+		
 	}
 
 	@Override
@@ -83,7 +84,7 @@ public class ChatView implements MessageListener, OnClickListener {
 		if (v == btnSenden) {
 			Log.i("onClick - Sende", "Senden: " + textInput.getText().toString());
 			if (!textInput.getText().toString().equals("")) {
-				MessageData m = new MessageData(0, textInput.getText().toString(), new ChatUser(), MainActivity.thisUser);
+				MessageData m = new MessageData(0, textInput.getText().toString(), MainActivity.thisUser, chat.getUser());
 				MainActivity.conn.sendMessage(m);
 				textInput.setText("");
 			}
